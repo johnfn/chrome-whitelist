@@ -7,15 +7,15 @@
       /* The problem that I'm trying to solve is to store all the indirect links
       in the background.html page. */
 
-      var tabStorage = {};
+      var unblocked_sites = {};
       chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         debugger;
           if(request.cmd == "save") {
-              tabStorage[request.key] = request.value;
+              unblocked_sites[request.key] = request.value;
           }
 
           if(request.cmd == "load") {
-              sendResponse(tabStorage[request.key]);
+              sendResponse(unblocked_sites[request.key]);
           }
       });
 
