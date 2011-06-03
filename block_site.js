@@ -1,41 +1,22 @@
 var fine_urls = [ "google"
                 , "stackoverflow"
                 , "gmail"
+                , "github"
                 , "grooveshark"
+                , "localhost"
+                , "flattr"
                 ];
-
-function log(str){
-  if (console){
-    console.log(str);
-  }
-}
 
 /* Simple wrapper functions around localStorage */
 
 function set_item(key, value) {
-  try {
-    log("Storing [" + key + ":" + value + "]");
-    window.localStorage.removeItem(key);
-    window.localStorage.setItem(key, value);
-  } catch(e) {
-    log("Error inside setItem");
-    log(e);
-  }
-  log("Return from setItem" + key + ":" +  value);
+  chrome.extension.sendRequest({cmd: "save", key: key, value: value});
 }
 
-function get_item(key) {
-  var value;
-  log('Retrieving key [' + key + ']');
-  try {
-    value = window.localStorage.getItem(key); 
-  }catch(e) {
-    log("Error inside getItem() for key:" + key);
-    log(e);
-    value = null;
-  }
-  log("Returning value: " + value);
-  return value;
+function get_item(key, cb) {
+  chrome.extension.sendRequest({cmd: "load", key: key}, function(response) {
+    cb(response);
+  });
 }
 
 function derp(){
@@ -96,14 +77,18 @@ function block_stupid_stuff(){
     }
   }
 
+  debugger;
+
   /* If we're one level of indirection from an okay URL, don't block it. */
-  if (get_item(url)) {
-    return;
-  }
+  get_item(url, function(resp){
+    if (resp) {
+      return;
+    }
 
-  /* Alright, the URL isn't good or kinda good. Block it. */
+    /* Alright, the URL isn't good or kinda good. Block it. */
 
-  document.body.innerHTML = "<center> Nope. Back to work.<br><br> <a id='a' href='javascript:void(0)'> I want to derp.</a></center>";
+    document.body.innerHTML = "<center> Nope. Back to work.<br><br> <a id='a' href='javascript:void(0)'> I want to derp.</a></center>";
+  });
 }
 
 block_stupid_stuff();
