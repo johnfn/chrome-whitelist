@@ -9,7 +9,6 @@
 
       var unblocked_sites = {};
       chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-        debugger;
           if(request.cmd == "save") {
               unblocked_sites[request.key] = request.value;
           }
