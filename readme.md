@@ -17,4 +17,4 @@ One day, when I feel like wasting $5 I may put it on the extension store (did yo
 
 * Visual interface for unblocked sites (right now it's just an array in javascript)
 * On/off switch. (Right now, the only way to turn it off is to disable the extension...heh.
-* Some sort of counter to show how productive you've been. Instead of negativity, have somrt sort of positive "you've spent 5 hours being productive today! Look how productive you've been over the week..."
+* Some sort of counter to show how productive you've been. Instead of negativity, have some sort of positive "you've spent 5 hours being productive today! Look how productive you've been over the week..."
