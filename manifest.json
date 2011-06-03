@@ -1,0 +1,17 @@
+{ "name": "Productive"
+, "version": "0.1"
+, "description": "The Internet is way too bright and shiny."
+, "background_page": "background.html"
+, "browser_action" :
+  { "default_icon" : "icon.png"
+  , "default_title" : "Doin magic behind the scenes."
+  }
+, "content_scripts": [
+                      { "matches": ["http://*/*"]
+                      , "js" : ["jquery.js"]
+                      }
+                     ]
+, "permissions" : [ "tabs"
+                  , "http://*/"
+                  ]
+}
