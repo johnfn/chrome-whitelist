@@ -3,10 +3,6 @@
 <html>
   <head>
     <script>
-
-      /* The problem that I'm trying to solve is to store all the indirect links
-      in the background.html page. */
-
       var unblocked_sites = {};
       chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
           if(request.cmd == "save") {

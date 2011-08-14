@@ -1,11 +1,112 @@
-var fine_urls = [ "google"
-                , "stackoverflow"
-                , "gmail"
-                , "github"
-                , "grooveshark"
-                , "localhost"
-                , "flattr"
-                ];
+// all or hacking
+var whitelist_type = "all"; 
+
+var fine_urls = { "google"              : "hacking" 
+                , "youtube"             : "all"                      
+                , "README"              : "all"                     
+                , "420"                 : "all"                  
+                , "givewell"            : "all"                       
+                , "humble"              : "all"                     
+                ,'facebook'             : "all"                      
+                , "elacar"              : "all"                     
+                , "songmeanings"        : "all"                           
+                , "sfoutsidelands"      : "all"                             
+                , "swift"               : "all"                    
+                ,'stypi'                : "all"                   
+                , "howtobeare"          : "all"                         
+                , "exocomics"           : "all"                        
+                , "goodreads"           : "all"                        
+                , "meetup"              : "all"                     
+                , "craigslist"          : "all"                         
+                ,'rate'                 : "all"                  
+                ,'hack'                 : "all"                  
+                , "chocolat"            : "all"                       
+                , "blog"                : "all"                   
+                ,'smbc'                 : "all"                  
+                ,'penny-ar'             : "all"                      
+                , "bell-labs"           : "all"                        
+                , "stalkerbot"          : "all"                         
+                , "lisp"                : "all"                   
+                , "clojure"             : "all"                      
+                , "marcellos"           : "all"                        
+                , "goose"               : "all"                    
+                , "quora"               : "all"                    
+                , "sicp"                : "all"                   
+                , "groupon"             : "all"                      
+                , "imdb"                : "all"                   
+                , "mysql"               : "all"                    
+                , "asana"               : "all"                    
+                , "cause"               : "all"                    
+                , "dustincurtis.com"    : "all"                               
+                , "develop-online"      : "all"                             
+                , "jline"               : "all"                    
+                , "stackoverflow"       : "all"                            
+                , "emacs"               : "all"                    
+                , "750words"            : "all"                       
+                , "oracle"              : "all"                     
+                , "kickstarter"         : "all"                          
+                ,'buttersafe'           : "all"                        
+                , "stars.kripet"        : "all"                           
+                , "rreverie"            : "all"                       
+                , "ruby"                : "all"                   
+                , "meganam"             : "all"                      
+                , "taskpot"             : "all"                      
+                , "topcoder"            : "all"                       
+                , "eclipse"             : "all"                      
+                , "sinatrarb"           : "all"                
+                , "bowler"              : "all"             
+                , "clojure"             : "all"                      
+                , "wycatsnumber"        : "all"                           
+                , "wikipedia"           : "all"                        
+                , "tineye"              : "all"                     
+                , "wikibook"            : "all"                       
+                , "winfail"             : "all"                      
+                , "vim"                 : "all"                  
+                , "gmail"               : "all"                    
+                , "github"              : "hacking"                     
+                , "mockr"               : "all"                    
+                , "grooveshark"         : "all"                          
+                , "dropbox"             : "all"                      
+                , "localhost"           : "all"                        
+                , "flattr"              : "all"                     
+                , "gutenberg"           : "all"                        
+                , "slashdot"            : "all"                       
+                , "go-hero"             : "all"                      
+                , "alexa"               : "all"                    
+                , "yelp"                : "all"                   
+                , "dusan.fora"          : "all"                         
+                , "weather"             : "all"                      
+                , "wsoh"                : "all"                   
+                , "ludum"               : "all"                    
+                , "smogon"              : "all"                     
+                , "socket"              : "all"                     
+                , "milo"                : "all"                   
+                , "rspec"               : "all"                    
+                , "tornado"             : "all"                      
+                , "lostgarden"          : "all"                         
+                , "yuiblog"             : "all"                      
+                , "yui"                 : "all"                  
+                , "jquery"              : "all"                     
+                , "crockford"           : "all"                        
+                , "imgur"               : "all"                    
+                , "adsafe"              : "all"                     
+                , "projecteuler"        : "all"                           
+                , "procrastinating"     : "all"                              
+                , "dreamers"            : "all"                       
+                , "canvas"              : "all"                     
+                , "python"              : "all"                     
+                , "stanford"            : "all"                       
+                , "vgmaps"              : "all"                     
+                , "apple"               : "all"                    
+                , "asus"                : "all"                   
+                , "zelda"               : "all"                    
+                , "guitar"              : "all"                     
+                , "911tabs"             : "all"                      
+                , "sqlalchemy"          : "all"                         
+                , "famfamfam"           : "all"                        
+                , "pastebin"            : "all"                       
+                , "etherpad"            : "all"                       
+                };
 
 /* Simple wrapper functions around localStorage */
 
@@ -65,19 +166,25 @@ function unblock_links(){
 
 /* If a URL is stupid, block it. */
 function block_stupid_stuff(){
+  console.log($("whitelist_group"));
 
   var url = strip_http(document.URL);
 
+  var whitelisted = []; 
+  for (key in fine_urls){
+    if (fine_urls[key] === whitelist_type || whitelist_type === "all"){
+      whitelisted.push(key);
+    }
+  }
 
   /* If it's an okay URL, don't block it */
-  for (var i=0; i<fine_urls.length; i++) {
-    if (url.indexOf(fine_urls[i]) != -1) {
+
+  for (var i=0; i<whitelisted.length; i++) {
+    if (url.indexOf(whitelisted[i]) != -1) {
       unblock_links(); /* Unblock adjancent links too */
       return;
     }
   }
-
-  debugger;
 
   /* If we're one level of indirection from an okay URL, don't block it. */
   get_item(url, function(resp){
